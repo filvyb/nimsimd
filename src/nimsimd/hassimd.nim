@@ -67,10 +67,12 @@ macro hasSimd*(procedure: untyped) =
     nameSse2 = name & "Sse2"
     nameAvx = name & "Avx"
     nameAvx2 = name & "Avx2"
+    nameAvx512f = name & "Avx512f"
     callNeon = callAndReturn(ident(nameNeon), procedure)
     callSse2 = callAndReturn(ident(nameSse2), procedure)
     callAvx = callAndReturn(ident(nameAvx), procedure)
     callAvx2 = callAndReturn(ident(nameAvx2), procedure)
+    callAvx512f = callAndReturn(ident(nameAvx512f), procedure)
 
   var
     foundSimd: bool
@@ -83,6 +85,13 @@ macro hasSimd*(procedure: untyped) =
     insertIdx = 1
 
   when defined(amd64):
+    if nameAvx512f & procSignature(procedure) in simdProcs:
+      foundSimd = true
+      procedure[6].insert(insertIdx, quote do:
+        if cpuHasAvx512f:
+          `callAvx512f`
+      )
+      inc insertIdx
     if nameAvx2 & procSignature(procedure) in simdProcs:
       foundSimd = true
       procedure[6].insert(insertIdx, quote do:

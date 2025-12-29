@@ -16,6 +16,7 @@ when defined(amd64):
       F16C
       BMI1
       BMI2
+      AVX512F
 
     InstructionSetCheckInfo = object
       leaf, register, bit: int
@@ -34,6 +35,7 @@ when defined(amd64):
     InstructionSetCheckInfo(leaf: 1, register: 2, bit: 29), # F16C
     InstructionSetCheckInfo(leaf: 7, register: 1, bit: 3), # BMI1
     InstructionSetCheckInfo(leaf: 7, register: 1, bit: 8), # BMI2
+    InstructionSetCheckInfo(leaf: 7, register: 1, bit: 16), # AVX512F
   ]
 
   proc cpuid(eaxi, ecxi: int32): array[4, int32] = # eax, ebx, ecx, edx
