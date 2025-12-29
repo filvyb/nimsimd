@@ -2,9 +2,6 @@ import f
 
 export f
 
-when defined(gcc) or defined(clang):
-  {.localPassc: "-mavx512vl".}
-
 {.push header: "immintrin.h".}
 
 # Arithmetic - 256-bit masked

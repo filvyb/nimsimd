@@ -21,9 +21,6 @@ const
   MM_CMPINT_NLE*: int32 = 6   ## Not less than or equal (a > b)
   MM_CMPINT_TRUE*: int32 = 7  ## Always true
 
-when defined(gcc) or defined(clang):
-  {.localPassc: "-mavx512f".}
-
 {.push header: "immintrin.h".}
 
 # Arithmetic - float32

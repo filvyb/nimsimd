@@ -2,9 +2,6 @@ import f
 
 export f
 
-when defined(gcc) or defined(clang):
-  {.localPassc: "-mavx512cd".}
-
 {.push header: "immintrin.h".}
 
 # Conflict detection - 512-bit

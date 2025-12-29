@@ -2,9 +2,6 @@ import f
 
 export f
 
-when defined(gcc) or defined(clang):
-  {.localPassc: "-mavx512dq".}
-
 {.push header: "immintrin.h".}
 
 # Multiply - 64-bit
