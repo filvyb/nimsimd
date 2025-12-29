@@ -1,4 +1,4 @@
-import nimsimd/avx512f, nimsimd/runtimecheck
+import nimsimd/avx512/f, nimsimd/runtimecheck
 
 when defined(gcc) or defined(clang):
   {.localPassc: "-mavx512f".}

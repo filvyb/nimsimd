@@ -1,4 +1,4 @@
-import avx2
+import ../avx2
 
 export avx2
 
@@ -8,6 +8,8 @@ type
   M512d* {.importc: "__m512d", header: "immintrin.h", bycopy.} = object
   Mmask8* = distinct uint8
   Mmask16* = distinct uint16
+  Mmask32* = distinct uint32
+  Mmask64* = distinct uint64
 
 const
   MM_CMPINT_EQ*: int32 = 0    ## Equal (a == b)
@@ -18,6 +20,9 @@ const
   MM_CMPINT_NLT*: int32 = 5   ## Not less than (a >= b)
   MM_CMPINT_NLE*: int32 = 6   ## Not less than or equal (a > b)
   MM_CMPINT_TRUE*: int32 = 7  ## Always true
+
+when defined(gcc) or defined(clang):
+  {.localPassc: "-mavx512f".}
 
 {.push header: "immintrin.h".}
 
@@ -54,8 +59,6 @@ func mm512_mullo_epi32*(a, b: M512i): M512i {.importc: "_mm512_mullo_epi32".}
 func mm512_add_epi64*(a, b: M512i): M512i {.importc: "_mm512_add_epi64".}
 
 func mm512_sub_epi64*(a, b: M512i): M512i {.importc: "_mm512_sub_epi64".}
-
-func mm512_mullo_epi64*(a, b: M512i): M512i {.importc: "_mm512_mullo_epi64".}
 
 # FMA - float32
 
@@ -286,24 +289,6 @@ func mm512_cmple_epi64_mask*(a, b: M512i): Mmask8 {.importc: "_mm512_cmple_epi64
 func mm512_cmpneq_epi32_mask*(a, b: M512i): Mmask16 {.importc: "_mm512_cmpneq_epi32_mask".}
 
 func mm512_cmpneq_epi64_mask*(a, b: M512i): Mmask8 {.importc: "_mm512_cmpneq_epi64_mask".}
-
-# Logical - float
-
-func mm512_and_ps*(a, b: M512): M512 {.importc: "_mm512_and_ps".}
-
-func mm512_and_pd*(a, b: M512d): M512d {.importc: "_mm512_and_pd".}
-
-func mm512_andnot_ps*(a, b: M512): M512 {.importc: "_mm512_andnot_ps".}
-
-func mm512_andnot_pd*(a, b: M512d): M512d {.importc: "_mm512_andnot_pd".}
-
-func mm512_or_ps*(a, b: M512): M512 {.importc: "_mm512_or_ps".}
-
-func mm512_or_pd*(a, b: M512d): M512d {.importc: "_mm512_or_pd".}
-
-func mm512_xor_ps*(a, b: M512): M512 {.importc: "_mm512_xor_ps".}
-
-func mm512_xor_pd*(a, b: M512d): M512d {.importc: "_mm512_xor_pd".}
 
 # Logical - integer
 
