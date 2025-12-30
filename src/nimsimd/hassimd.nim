@@ -70,6 +70,7 @@ macro hasSimd*(procedure: untyped) =
     nameAvx512 = name & "Avx512"
     nameAvx512vnni = name & "Avx512vnni"
     nameAvx512bf16 = name & "Avx512bf16"
+    nameAvx512fp16 = name & "Avx512fp16"
     nameAvx512cnl = name & "Avx512cnl"
     nameAvx512icl = name & "Avx512icl"
     nameAvx512zen4 = name & "Avx512zen4"
@@ -81,6 +82,7 @@ macro hasSimd*(procedure: untyped) =
     callAvx512 = callAndReturn(ident(nameAvx512), procedure)
     callAvx512vnni = callAndReturn(ident(nameAvx512vnni), procedure)
     callAvx512bf16 = callAndReturn(ident(nameAvx512bf16), procedure)
+    callAvx512fp16 = callAndReturn(ident(nameAvx512fp16), procedure)
     callAvx512cnl = callAndReturn(ident(nameAvx512cnl), procedure)
     callAvx512icl = callAndReturn(ident(nameAvx512icl), procedure)
     callAvx512zen4 = callAndReturn(ident(nameAvx512zen4), procedure)
@@ -130,6 +132,13 @@ macro hasSimd*(procedure: untyped) =
       procedure[6].insert(insertIdx, quote do:
         if cpuHasAvx512bf16:
           `callAvx512bf16`
+      )
+      inc insertIdx
+    if nameAvx512fp16 & procSignature(procedure) in simdProcs:
+      foundSimd = true
+      procedure[6].insert(insertIdx, quote do:
+        if cpuHasAvx512fp16:
+          `callAvx512fp16`
       )
       inc insertIdx
     if nameAvx512vnni & procSignature(procedure) in simdProcs:
