@@ -68,6 +68,9 @@ macro hasSimd*(procedure: untyped) =
     nameAvx = name & "Avx"
     nameAvx2 = name & "Avx2"
     nameAvx512 = name & "Avx512"
+    nameAvx512vnni = name & "Avx512vnni"
+    nameAvx512bf16 = name & "Avx512bf16"
+    nameAvx512cnl = name & "Avx512cnl"
     nameAvx512icl = name & "Avx512icl"
     nameAvx512zen4 = name & "Avx512zen4"
     nameVp2intersect = name & "Vp2intersect"
@@ -76,6 +79,9 @@ macro hasSimd*(procedure: untyped) =
     callAvx = callAndReturn(ident(nameAvx), procedure)
     callAvx2 = callAndReturn(ident(nameAvx2), procedure)
     callAvx512 = callAndReturn(ident(nameAvx512), procedure)
+    callAvx512vnni = callAndReturn(ident(nameAvx512vnni), procedure)
+    callAvx512bf16 = callAndReturn(ident(nameAvx512bf16), procedure)
+    callAvx512cnl = callAndReturn(ident(nameAvx512cnl), procedure)
     callAvx512icl = callAndReturn(ident(nameAvx512icl), procedure)
     callAvx512zen4 = callAndReturn(ident(nameAvx512zen4), procedure)
     callVp2intersect = callAndReturn(ident(nameVp2intersect), procedure)
@@ -110,6 +116,27 @@ macro hasSimd*(procedure: untyped) =
       procedure[6].insert(insertIdx, quote do:
         if cpuHasAvx512icl:
           `callAvx512icl`
+      )
+      inc insertIdx
+    if nameAvx512cnl & procSignature(procedure) in simdProcs:
+      foundSimd = true
+      procedure[6].insert(insertIdx, quote do:
+        if cpuHasAvx512cnl:
+          `callAvx512cnl`
+      )
+      inc insertIdx
+    if nameAvx512bf16 & procSignature(procedure) in simdProcs:
+      foundSimd = true
+      procedure[6].insert(insertIdx, quote do:
+        if cpuHasAvx512bf16:
+          `callAvx512bf16`
+      )
+      inc insertIdx
+    if nameAvx512vnni & procSignature(procedure) in simdProcs:
+      foundSimd = true
+      procedure[6].insert(insertIdx, quote do:
+        if cpuHasAvx512vnni:
+          `callAvx512vnni`
       )
       inc insertIdx
     if nameAvx512 & procSignature(procedure) in simdProcs:
