@@ -29,6 +29,7 @@ when defined(amd64):
       AVX512BITALG
       AVX512BF16
       AVX512FP16
+      AVX512VP2INTERSECT
       GFNI
       VPCLMULQDQ
       VAES
@@ -63,6 +64,7 @@ when defined(amd64):
     InstructionSetCheckInfo(leaf: 7, subleaf: 0, register: 2, bit: 12), # AVX512BITALG
     InstructionSetCheckInfo(leaf: 7, subleaf: 1, register: 0, bit: 5), # AVX512BF16
     InstructionSetCheckInfo(leaf: 7, subleaf: 0, register: 3, bit: 23), # AVX512FP16
+    InstructionSetCheckInfo(leaf: 7, subleaf: 0, register: 3, bit: 8), # AVX512VP2INTERSECT
     InstructionSetCheckInfo(leaf: 7, subleaf: 0, register: 2, bit: 8), # GFNI
     InstructionSetCheckInfo(leaf: 7, subleaf: 0, register: 2, bit: 10), # VPCLMULQDQ
     InstructionSetCheckInfo(leaf: 7, subleaf: 0, register: 2, bit: 9), # VAES
